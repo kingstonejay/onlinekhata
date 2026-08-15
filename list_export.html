@@ -260,7 +260,7 @@
             <table id="dataTable">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>વારા નંબર</th>
                         <th>ખાતા નંબર</th>
                         <th>ખાતેદારનું નામ</th>
                         <th>મોબાઇલ</th>
@@ -313,7 +313,7 @@
                 const date = row.created_at ? new Date(row.created_at).toLocaleString() : '—';
                 html += `
                     <tr>
-                        <td data-label="#">${row._staticSerial}</td>
+                        <td data-label="વારા નંબર"><h3>${row._staticSerial}</h3></td>
                         <td data-label="ખાતા નંબર"><span class="badge">${escHtml(row.khata_number)}</span></td>
                         <td data-label="ખાતેદારનું નામ"><strong>${escHtml(row.khatedar_name)}</strong></td>
                         <td data-label="મોબાઇલ">${escHtml(row.mobile_number)}</td>
