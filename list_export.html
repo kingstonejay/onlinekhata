@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Khata List (Static)</title>
+    <title>Khata List - Vara Yadi 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
@@ -11,45 +11,92 @@
         body {
             font-family: 'Inter', sans-serif;
             background: #f4f6fa;
-            padding: 16px;
+            padding: 0;
+            padding-top: 70px;   /* space for fixed header */
+            padding-bottom: 70px; /* space for fixed footer */
             color: #1e293b;
         }
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .sticky-header i {
+            margin-right: 10px;
+            color: #60a5fa;
+        }
+        /* Sticky Footer */
+        .sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+        }
+        .sticky-footer i {
+            margin-right: 8px;
+            color: #60a5fa;
+        }
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             background: #fff;
             border-radius: 16px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
-            padding: 20px;
+            padding: 20px 24px;
         }
-        h1 {
-            font-size: 22px;
-            margin-bottom: 4px;
+        .list-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-        }
-        .subtitle {
-            color: #64748b;
+            flex-wrap: wrap;
+            gap: 12px;
             margin-bottom: 16px;
-            font-size: 14px;
+        }
+        .list-header .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .list-header .title i {
+            color: #4f46e5;
+            margin-right: 6px;
         }
         .search-box {
             display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            flex: 1;
+            min-width: 200px;
         }
         .search-box input {
             flex: 1;
-            padding: 10px 14px;
+            padding: 8px 14px;
             border: 1.5px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 14px;
             font-family: 'Inter', sans-serif;
             background: #fafbfc;
             transition: border-color 0.2s;
-            min-width: 200px;
         }
         .search-box input:focus {
             outline: none;
@@ -59,7 +106,7 @@
         .count {
             font-size: 14px;
             color: #64748b;
-            margin-bottom: 12px;
+            white-space: nowrap;
         }
         .count strong { color: #0f172a; }
         .table-scroll {
@@ -109,8 +156,48 @@
             padding: 40px 0;
             font-style: italic;
         }
-        /* Mobile card style */
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .pagination button {
+            padding: 6px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 6px;
+            background: #fff;
+            color: #1e293b;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .pagination button:hover:not(:disabled) {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .pagination .page-info {
+            font-size: 14px;
+            color: #64748b;
+        }
+        .pagination .page-info strong {
+            color: #0f172a;
+        }
+
+        /* Mobile responsive: card style */
         @media (max-width: 600px) {
+            body { padding-top: 60px; padding-bottom: 60px; }
+            .sticky-header { font-size: 18px; padding: 8px 12px; }
+            .sticky-footer { font-size: 14px; padding: 8px 12px; }
+            .container { padding: 12px 10px; }
             thead { display: none; }
             tbody tr {
                 display: block;
@@ -118,50 +205,56 @@
                 border-radius: 12px;
                 box-shadow: 0 1px 4px rgba(0,0,0,0.06);
                 margin-bottom: 12px;
-                padding: 12px 16px;
+                padding: 10px 14px;
                 border: 1px solid #eef2f6;
             }
             tbody tr:hover { background: #fff; }
             td {
                 display: flex;
-                padding: 6px 0;
+                padding: 4px 0;
                 border: none;
                 justify-content: space-between;
                 align-items: center;
                 border-bottom: 1px dashed #f0f2f5;
             }
-            td:last-child {
-                border-bottom: none;
-            }
+            td:last-child { border-bottom: none; }
             td::before {
                 content: attr(data-label);
                 font-weight: 600;
                 color: #475569;
                 font-size: 13px;
                 margin-right: 12px;
-                min-width: 80px;
+                min-width: 70px;
             }
             .empty td {
                 display: block;
                 text-align: center;
-                padding: 24px 0;
+                padding: 20px 0;
                 border: none;
             }
             .empty td::before { display: none; }
             .search-box input { font-size: 16px; }
-            .container { padding: 16px; }
+            .list-header { flex-direction: column; align-items: stretch; }
+            .search-box { width: 100%; }
+            .count { text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1><i class="fas fa-list" style="color:#4f46e5;"></i> PSS 2026-27ની ઓનલાઇન વારા યાદી </h1>
-        
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 શોધો (ખાતા, નામ, મોબાઇલ...)" />
+    <!-- Sticky Header -->
+    <div class="sticky-header">
+        <i class="fas fa-file-alt"></i> Vara Yadi 2026
+    </div>
+
+    <div class="container">
+        <div class="list-header">
+            <div class="title"><i class="fas fa-list"></i> ખાતા નોંધો</div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 શોધો (ખાતા, નામ, મોબાઇલ...)" />
+            </div>
+            <div class="count">કુલ: <strong id="totalCount">0</strong> નોંધો</div>
         </div>
-        <div class="count">કુલ: <strong id="totalCount">0</strong> નોંધો</div>
 
         <div class="table-scroll">
             <table id="dataTable">
@@ -180,10 +273,26 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination controls -->
+        <div class="pagination" id="paginationControls">
+            <button id="prevPageBtn" disabled><i class="fas fa-chevron-left"></i> પાછળ</button>
+            <span class="page-info" id="pageInfo">પાનું <strong id="currentPageDisplay">1</strong> / <strong id="totalPagesDisplay">1</strong></span>
+            <button id="nextPageBtn">આગળ <i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Sticky Footer -->
+    <div class="sticky-footer">
+        <i class="fas fa-handshake"></i> Sree Dasi Nagarik Suvidha Kendra Chuda
     </div>
 
     <script>
-        const entries = [{"id":51,"0":51,"khata_number":"1839","1":"1839","khatedar_name":"શ્રી મંજુલાબેન દેવજીભાઇ કથીરીયા","2":"શ્રી મંજુલાબેન દેવજીભાઇ કથીરીયા","mobile_number":"9909314512","3":"9909314512","extra_field":null,"4":null,"created_at":"2026-08-15 13:53:43","5":"2026-08-15 13:53:43","_staticSerial":51},{"id":50,"0":50,"khata_number":"1838","1":"1838","khatedar_name":"શ્રી લલીતભાઇ દેવજીભાઇ કથીરીયા","2":"શ્રી લલીતભાઇ દેવજીભાઇ કથીરીયા","mobile_number":"9909314512","3":"9909314512","extra_field":null,"4":null,"created_at":"2026-08-15 13:53:30","5":"2026-08-15 13:53:30","_staticSerial":50},{"id":49,"0":49,"khata_number":"1837","1":"1837","khatedar_name":"શ્રી દેવજીભાઇ જેરામભાઇ કથીરીયા","2":"શ્રી દેવજીભાઇ જેરામભાઇ કથીરીયા","mobile_number":"9601157011","3":"9601157011","extra_field":null,"4":null,"created_at":"2026-08-15 13:53:10","5":"2026-08-15 13:53:10","_staticSerial":49},{"id":48,"0":48,"khata_number":"1356","1":"1356","khatedar_name":"સાંગાણી ધનજીભાઈ સમજુભાઈ","2":"સાંગાણી ધનજીભાઈ સમજુભાઈ","mobile_number":"9726619930","3":"9726619930","extra_field":null,"4":null,"created_at":"2026-08-15 13:52:47","5":"2026-08-15 13:52:47","_staticSerial":48},{"id":47,"0":47,"khata_number":"2165","1":"2165","khatedar_name":"રાજેશભાઇ ભીમભાઇ મકવાણા","2":"રાજેશભાઇ ભીમભાઇ મકવાણા","mobile_number":"9558175923","3":"9558175923","extra_field":null,"4":null,"created_at":"2026-08-15 13:52:02","5":"2026-08-15 13:52:02","_staticSerial":47},{"id":46,"0":46,"khata_number":"1783","1":"1783","khatedar_name":"શ્રી સંગીતાબેન જયોતિષભાઈ ભુત","2":"શ્રી સંગીતાબેન જયોતિષભાઈ ભુત","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:50:39","5":"2026-08-15 13:50:39","_staticSerial":46},{"id":45,"0":45,"khata_number":"1718","1":"1718","khatedar_name":"શ્રી કરણભાઇ જયોતિષભાઈ ભુત","2":"શ્રી કરણભાઇ જયોતિષભાઈ ભુત","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:50:20","5":"2026-08-15 13:50:20","_staticSerial":45},{"id":44,"0":44,"khata_number":"1784","1":"1784","khatedar_name":"શ્રી જયોતિષભાઈ ઊકાભાઈ","2":"શ્રી જયોતિષભાઈ ઊકાભાઈ","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:50:09","5":"2026-08-15 13:50:09","_staticSerial":44},{"id":43,"0":43,"khata_number":"591","1":"591","khatedar_name":"શ્રી બાવાભાઇ અરજણ઼ભાઇ ભુત","2":"શ્રી બાવાભાઇ અરજણ઼ભાઇ ભુત","mobile_number":"9925772457","3":"9925772457","extra_field":null,"4":null,"created_at":"2026-08-15 13:48:21","5":"2026-08-15 13:48:21","_staticSerial":43},{"id":42,"0":42,"khata_number":"69","1":"69","khatedar_name":"દિલીપભાઇ અરજણભાઇ ભુત","2":"દિલીપભાઇ અરજણભાઇ ભુત","mobile_number":"9925172457","3":"9925172457","extra_field":null,"4":null,"created_at":"2026-08-15 13:46:28","5":"2026-08-15 13:46:28","_staticSerial":42},{"id":41,"0":41,"khata_number":"822","1":"822","khatedar_name":"શ્રી પાટીદાર સમજુભાઇ અરજણ઼ભાઇ ભુત","2":"શ્રી પાટીદાર સમજુભાઇ અરજણ઼ભાઇ ભુત","mobile_number":"9925172457","3":"9925172457","extra_field":null,"4":null,"created_at":"2026-08-15 13:46:09","5":"2026-08-15 13:46:09","_staticSerial":41},{"id":40,"0":40,"khata_number":"1990","1":"1990","khatedar_name":"ભુપતભાઇ પ્રેમજીભાઇ ગજેરા","2":"ભુપતભાઇ પ્રેમજીભાઇ ગજેરા","mobile_number":"9099133005","3":"9099133005","extra_field":null,"4":null,"created_at":"2026-08-15 13:45:47","5":"2026-08-15 13:45:47","_staticSerial":40},{"id":39,"0":39,"khata_number":"820","1":"820","khatedar_name":"અરવિંદભાઇ પ્રેમજીભાઇ ગજેરા","2":"અરવિંદભાઇ પ્રેમજીભાઇ ગજેરા","mobile_number":"9726222012","3":"9726222012","extra_field":null,"4":null,"created_at":"2026-08-15 13:45:25","5":"2026-08-15 13:45:25","_staticSerial":39},{"id":38,"0":38,"khata_number":"2095","1":"2095","khatedar_name":"ઉકાભાઇ ગોરધનભાઇ સાવલીયા","2":"ઉકાભાઇ ગોરધનભાઇ સાવલીયા","mobile_number":"9737090828","3":"9737090828","extra_field":null,"4":null,"created_at":"2026-08-15 13:44:20","5":"2026-08-15 13:44:20","_staticSerial":38},{"id":37,"0":37,"khata_number":"2096","1":"2096","khatedar_name":"પારસ ઉકાભાઇ સાવલીયા","2":"પારસ ઉકાભાઇ સાવલીયા","mobile_number":"9664825245","3":"9664825245","extra_field":null,"4":null,"created_at":"2026-08-15 13:43:51","5":"2026-08-15 13:43:51","_staticSerial":37},{"id":36,"0":36,"khata_number":"824","1":"824","khatedar_name":"શ્રી હરેશભાઈ અરજણભાઈ ભુત","2":"શ્રી હરેશભાઈ અરજણભાઈ ભુત","mobile_number":"9825359572","3":"9825359572","extra_field":null,"4":null,"created_at":"2026-08-15 13:39:32","5":"2026-08-15 13:39:32","_staticSerial":36},{"id":35,"0":35,"khata_number":"1587","1":"1587","khatedar_name":"ગોપાલભાઇ બાવાભાઇ મોવલીયા","2":"ગોપાલભાઇ બાવાભાઇ મોવલીયા","mobile_number":"9725104385","3":"9725104385","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:59","5":"2026-08-15 13:13:59","_staticSerial":35},{"id":34,"0":34,"khata_number":"1589","1":"1589","khatedar_name":"ગીરધરભાઇ બાવાભાઇ મોવલીયા","2":"ગીરધરભાઇ બાવાભાઇ મોવલીયા","mobile_number":"9737090291","3":"9737090291","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:43","5":"2026-08-15 13:13:43","_staticSerial":34},{"id":33,"0":33,"khata_number":"396","1":"396","khatedar_name":"ઘેલાભાઇ ગોરધનભાઇ રાખોલીયા","2":"ઘેલાભાઇ ગોરધનભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:28","5":"2026-08-15 13:13:28","_staticSerial":33},{"id":32,"0":32,"khata_number":"111","1":"111","khatedar_name":"શ્રી ગોરધનભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી ગોરધનભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"9725981692","3":"9725981692","extra_field":null,"4":null,"created_at":"2026-08-15 13:12:29","5":"2026-08-15 13:12:29","_staticSerial":32},{"id":31,"0":31,"khata_number":"396","1":"396","khatedar_name":"મુકેશભાઇ ગોરધનભાઇ રાખોલીયા","2":"મુકેશભાઇ ગોરધનભાઇ રાખોલીયા","mobile_number":"9725981692","3":"9725981692","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:47","5":"2026-08-15 13:11:47","_staticSerial":31},{"id":30,"0":30,"khata_number":"1988","1":"1988","khatedar_name":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","2":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:14","5":"2026-08-15 13:11:14","_staticSerial":30},{"id":29,"0":29,"khata_number":"1986","1":"1986","khatedar_name":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","2":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:07","5":"2026-08-15 13:11:07","_staticSerial":29},{"id":28,"0":28,"khata_number":"821","1":"821","khatedar_name":"શ્રી પાટીદાર મઘુભાઈ રાજાભાઇ ગજેરા","2":"શ્રી પાટીદાર મઘુભાઈ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:10:54","5":"2026-08-15 13:10:54","_staticSerial":28},{"id":27,"0":27,"khata_number":"1044","1":"1044","khatedar_name":"શ્રી ડોબરીયા પાંચાભાઇ રણછોડભાઈ","2":"શ્રી ડોબરીયા પાંચાભાઇ રણછોડભાઈ","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:10:28","5":"2026-08-15 13:10:28","_staticSerial":27},{"id":26,"0":26,"khata_number":"639","1":"639","khatedar_name":"શ્રી પાનસુરીયા પોપટલાલ પુનાભાઈ","2":"શ્રી પાનસુરીયા પોપટલાલ પુનાભાઈ","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:09:49","5":"2026-08-15 13:09:49","_staticSerial":26},{"id":25,"0":25,"khata_number":"948","1":"948","khatedar_name":"કેતનભાઇ પરસોતમભાઇ ગજેરા","2":"કેતનભાઇ પરસોતમભાઇ ગજેરા","mobile_number":"9925495316","3":"9925495316","extra_field":null,"4":null,"created_at":"2026-08-15 13:08:56","5":"2026-08-15 13:08:56","_staticSerial":25},{"id":24,"0":24,"khata_number":"111","1":"111","khatedar_name":"શ્રી હરેશભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી હરેશભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:08:35","5":"2026-08-15 13:08:35","_staticSerial":24},{"id":23,"0":23,"khata_number":"850","1":"850","khatedar_name":"શ્રી નવનીત઼ભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી નવનીત઼ભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:06:43","5":"2026-08-15 13:06:43","_staticSerial":23},{"id":22,"0":22,"khata_number":"328","1":"328","khatedar_name":"શ્રી ભગવાનભાઈ ભીખુભાઈ સાવલીયા","2":"શ્રી ભગવાનભાઈ ભીખુભાઈ સાવલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:05:25","5":"2026-08-15 13:05:25","_staticSerial":22},{"id":21,"0":21,"khata_number":"119","1":"119","khatedar_name":"શ્રી વજુભાઇ ચનાભાઇ રીબડીયા","2":"શ્રી વજુભાઇ ચનાભાઇ રીબડીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:04:16","5":"2026-08-15 13:04:16","_staticSerial":21},{"id":20,"0":20,"khata_number":"1073","1":"1073","khatedar_name":"શ્રી રામજીભાઇ હરિભાઈ વાડદરીયા","2":"શ્રી રામજીભાઇ હરિભાઈ વાડદરીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:03:58","5":"2026-08-15 13:03:58","_staticSerial":20},{"id":19,"0":19,"khata_number":"1117","1":"1117","khatedar_name":"શ્રી વઘાસીયા બાબુભાઈ શંભુભાઈ","2":"શ્રી વઘાસીયા બાબુભાઈ શંભુભાઈ","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:03:14","5":"2026-08-15 13:03:14","_staticSerial":19},{"id":18,"0":18,"khata_number":"1697","1":"1697","khatedar_name":"ગુ.નાં વિ. મધુબેન કાનજીભાઇ સાવલીયા","2":"ગુ.નાં વિ. મધુબેન કાનજીભાઇ સાવલીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 12:58:28","5":"2026-08-15 12:58:28","_staticSerial":18},{"id":17,"0":17,"khata_number":"2097","1":"2097","khatedar_name":"શ્રી સંદિપભાઇ હરેશભાઇ રાખોલીયા","2":"શ્રી સંદિપભાઇ હરેશભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 12:58:11","5":"2026-08-15 12:58:11","_staticSerial":17},{"id":16,"0":16,"khata_number":"915","1":"915","khatedar_name":"શ્રી વિઠ્લભાઈ અરજણભાઇ ગજેરા","2":"શ્રી વિઠ્લભાઈ અરજણભાઇ ગજેરા","mobile_number":"9898887412","3":"9898887412","extra_field":null,"4":null,"created_at":"2026-08-15 12:52:31","5":"2026-08-15 12:52:31","_staticSerial":16},{"id":15,"0":15,"khata_number":"329","1":"329","khatedar_name":"મનીષભાઇ કાનજીભાઇ સાવલીયા","2":"મનીષભાઇ કાનજીભાઇ સાવલીયા","mobile_number":"9724847520","3":"9724847520","extra_field":null,"4":null,"created_at":"2026-08-15 12:51:36","5":"2026-08-15 12:51:36","_staticSerial":15},{"id":14,"0":14,"khata_number":"1359","1":"1359","khatedar_name":"શ્રી મગનભાઈ ભીખુભાઈ સાવલીયા","2":"શ્રી મગનભાઈ ભીખુભાઈ સાવલીયા","mobile_number":"9724847520","3":"9724847520","extra_field":null,"4":null,"created_at":"2026-08-15 12:45:09","5":"2026-08-15 12:45:09","_staticSerial":14},{"id":13,"0":13,"khata_number":"1834","1":"1834","khatedar_name":"શૈલેષભાઇ રત્નાભાઇ વઘાસીયા","2":"શૈલેષભાઇ રત્નાભાઇ વઘાસીયા","mobile_number":"9725520462","3":"9725520462","extra_field":null,"4":null,"created_at":"2026-08-15 12:44:03","5":"2026-08-15 12:44:03","_staticSerial":13},{"id":12,"0":12,"khata_number":"1400","1":"1400","khatedar_name":"સાવલીયા મનીષભાઈ દેવરાજભાઈ","2":"સાવલીયા મનીષભાઈ દેવરાજભાઈ","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:43:04","5":"2026-08-15 12:43:04","_staticSerial":12},{"id":11,"0":11,"khata_number":"1397","1":"1397","khatedar_name":"શ્રી ધનાભાઇ ગોકળભાઇ સાવલીયા","2":"શ્રી ધનાભાઇ ગોકળભાઇ સાવલીયા","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:42:40","5":"2026-08-15 12:42:40","_staticSerial":11},{"id":10,"0":10,"khata_number":"1397","1":"1397","khatedar_name":"રસીકભાઇ ધનજીભાઇ સાવલીયા","2":"રસીકભાઇ ધનજીભાઇ સાવલીયા","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:42:14","5":"2026-08-15 12:42:14","_staticSerial":10},{"id":9,"0":9,"khata_number":"2098","1":"2098","khatedar_name":"શ્રી રાજનભાઇ હરેશભાઇ રાખોલીયા","2":"શ્રી રાજનભાઇ હરેશભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 12:41:03","5":"2026-08-15 12:41:03","_staticSerial":9},{"id":8,"0":8,"khata_number":"1870","1":"1870","khatedar_name":"દિનેશભાઇ ધીરૂભાઇ રૂડાણી","2":"દિનેશભાઇ ધીરૂભાઇ રૂડાણી","mobile_number":"9925600947","3":"9925600947","extra_field":null,"4":null,"created_at":"2026-08-15 12:39:38","5":"2026-08-15 12:39:38","_staticSerial":8},{"id":7,"0":7,"khata_number":"1077","1":"1077","khatedar_name":"શ્રી વિનુભાઇ ગોરઘનભાઇ સાવલીયા","2":"શ્રી વિનુભાઇ ગોરઘનભાઇ સાવલીયા","mobile_number":"9978201812","3":"9978201812","extra_field":null,"4":null,"created_at":"2026-08-15 12:39:13","5":"2026-08-15 12:39:13","_staticSerial":7},{"id":6,"0":6,"khata_number":"1076","1":"1076","khatedar_name":"શ્રી સાવલીયા વિઠ્લભાઇ ગોરઘનભાઇ","2":"શ્રી સાવલીયા વિઠ્લભાઇ ગોરઘનભાઇ","mobile_number":"9879651449","3":"9879651449","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:57","5":"2026-08-15 12:38:57","_staticSerial":6},{"id":5,"0":5,"khata_number":"218","1":"218","khatedar_name":"શ્રી કેશુભાઈ ગોરઘનભાઈ સાવલીયા","2":"શ્રી કેશુભાઈ ગોરઘનભાઈ સાવલીયા","mobile_number":"9913199549","3":"9913199549","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:36","5":"2026-08-15 12:38:36","_staticSerial":5},{"id":4,"0":4,"khata_number":"355","1":"355","khatedar_name":"શ્રી ગોંડલીયા હંસરાજ઼ ગોવીંદ઼ભાઇ","2":"શ્રી ગોંડલીયા હંસરાજ઼ ગોવીંદ઼ભાઇ","mobile_number":"8141677272","3":"8141677272","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:09","5":"2026-08-15 12:38:09","_staticSerial":4},{"id":3,"0":3,"khata_number":"1813","1":"1813","khatedar_name":"નાથીબેન ગોબરભાઇ ગોંડલીયા","2":"નાથીબેન ગોબરભાઇ ગોંડલીયા","mobile_number":"9106958159","3":"9106958159","extra_field":null,"4":null,"created_at":"2026-08-15 12:37:32","5":"2026-08-15 12:37:32","_staticSerial":3},{"id":2,"0":2,"khata_number":"1078","1":"1078","khatedar_name":"શ્રી ગાગંજીભાઇ ગોરઘનભાઇ સાવલીયા","2":"શ્રી ગાગંજીભાઇ ગોરઘનભાઇ સાવલીયા","mobile_number":"9825441701","3":"9825441701","extra_field":null,"4":null,"created_at":"2026-08-15 12:35:28","5":"2026-08-15 12:35:28","_staticSerial":2},{"id":1,"0":1,"khata_number":"1463","1":"1463","khatedar_name":"હરિભાઇ કાબાભાઇ ગોંડલીયા","2":"હરિભાઇ કાબાભાઇ ગોંડલીયા","mobile_number":"9979534544","3":"9979534544","extra_field":null,"4":null,"created_at":"2026-08-15 12:34:33","5":"2026-08-15 12:34:33","_staticSerial":1}];
+        // Embedded data (inserted via placeholder)
+        const entries = [{"id":1,"0":1,"khata_number":"1463","1":"1463","khatedar_name":"હરિભાઇ કાબાભાઇ ગોંડલીયા","2":"હરિભાઇ કાબાભાઇ ગોંડલીયા","mobile_number":"9979534544","3":"9979534544","extra_field":null,"4":null,"created_at":"2026-08-15 12:34:33","5":"2026-08-15 12:34:33","_staticSerial":1},{"id":2,"0":2,"khata_number":"1078","1":"1078","khatedar_name":"શ્રી ગાગંજીભાઇ ગોરઘનભાઇ સાવલીયા","2":"શ્રી ગાગંજીભાઇ ગોરઘનભાઇ સાવલીયા","mobile_number":"9825441701","3":"9825441701","extra_field":null,"4":null,"created_at":"2026-08-15 12:35:28","5":"2026-08-15 12:35:28","_staticSerial":2},{"id":3,"0":3,"khata_number":"1813","1":"1813","khatedar_name":"નાથીબેન ગોબરભાઇ ગોંડલીયા","2":"નાથીબેન ગોબરભાઇ ગોંડલીયા","mobile_number":"9106958159","3":"9106958159","extra_field":null,"4":null,"created_at":"2026-08-15 12:37:32","5":"2026-08-15 12:37:32","_staticSerial":3},{"id":4,"0":4,"khata_number":"355","1":"355","khatedar_name":"શ્રી ગોંડલીયા હંસરાજ઼ ગોવીંદ઼ભાઇ","2":"શ્રી ગોંડલીયા હંસરાજ઼ ગોવીંદ઼ભાઇ","mobile_number":"8141677272","3":"8141677272","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:09","5":"2026-08-15 12:38:09","_staticSerial":4},{"id":5,"0":5,"khata_number":"218","1":"218","khatedar_name":"શ્રી કેશુભાઈ ગોરઘનભાઈ સાવલીયા","2":"શ્રી કેશુભાઈ ગોરઘનભાઈ સાવલીયા","mobile_number":"9913199549","3":"9913199549","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:36","5":"2026-08-15 12:38:36","_staticSerial":5},{"id":6,"0":6,"khata_number":"1076","1":"1076","khatedar_name":"શ્રી સાવલીયા વિઠ્લભાઇ ગોરઘનભાઇ","2":"શ્રી સાવલીયા વિઠ્લભાઇ ગોરઘનભાઇ","mobile_number":"9879651449","3":"9879651449","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:57","5":"2026-08-15 12:38:57","_staticSerial":6},{"id":7,"0":7,"khata_number":"1077","1":"1077","khatedar_name":"શ્રી વિનુભાઇ ગોરઘનભાઇ સાવલીયા","2":"શ્રી વિનુભાઇ ગોરઘનભાઇ સાવલીયા","mobile_number":"9978201812","3":"9978201812","extra_field":null,"4":null,"created_at":"2026-08-15 12:39:13","5":"2026-08-15 12:39:13","_staticSerial":7},{"id":8,"0":8,"khata_number":"1870","1":"1870","khatedar_name":"દિનેશભાઇ ધીરૂભાઇ રૂડાણી","2":"દિનેશભાઇ ધીરૂભાઇ રૂડાણી","mobile_number":"9925600947","3":"9925600947","extra_field":null,"4":null,"created_at":"2026-08-15 12:39:38","5":"2026-08-15 12:39:38","_staticSerial":8},{"id":9,"0":9,"khata_number":"2098","1":"2098","khatedar_name":"શ્રી રાજનભાઇ હરેશભાઇ રાખોલીયા","2":"શ્રી રાજનભાઇ હરેશભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 12:41:03","5":"2026-08-15 12:41:03","_staticSerial":9},{"id":10,"0":10,"khata_number":"1397","1":"1397","khatedar_name":"રસીકભાઇ ધનજીભાઇ સાવલીયા","2":"રસીકભાઇ ધનજીભાઇ સાવલીયા","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:42:14","5":"2026-08-15 12:42:14","_staticSerial":10},{"id":11,"0":11,"khata_number":"1397","1":"1397","khatedar_name":"શ્રી ધનાભાઇ ગોકળભાઇ સાવલીયા","2":"શ્રી ધનાભાઇ ગોકળભાઇ સાવલીયા","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:42:40","5":"2026-08-15 12:42:40","_staticSerial":11},{"id":12,"0":12,"khata_number":"1400","1":"1400","khatedar_name":"સાવલીયા મનીષભાઈ દેવરાજભાઈ","2":"સાવલીયા મનીષભાઈ દેવરાજભાઈ","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:43:04","5":"2026-08-15 12:43:04","_staticSerial":12},{"id":13,"0":13,"khata_number":"1834","1":"1834","khatedar_name":"શૈલેષભાઇ રત્નાભાઇ વઘાસીયા","2":"શૈલેષભાઇ રત્નાભાઇ વઘાસીયા","mobile_number":"9725520462","3":"9725520462","extra_field":null,"4":null,"created_at":"2026-08-15 12:44:03","5":"2026-08-15 12:44:03","_staticSerial":13},{"id":14,"0":14,"khata_number":"1359","1":"1359","khatedar_name":"શ્રી મગનભાઈ ભીખુભાઈ સાવલીયા","2":"શ્રી મગનભાઈ ભીખુભાઈ સાવલીયા","mobile_number":"9724847520","3":"9724847520","extra_field":null,"4":null,"created_at":"2026-08-15 12:45:09","5":"2026-08-15 12:45:09","_staticSerial":14},{"id":15,"0":15,"khata_number":"329","1":"329","khatedar_name":"મનીષભાઇ કાનજીભાઇ સાવલીયા","2":"મનીષભાઇ કાનજીભાઇ સાવલીયા","mobile_number":"9724847520","3":"9724847520","extra_field":null,"4":null,"created_at":"2026-08-15 12:51:36","5":"2026-08-15 12:51:36","_staticSerial":15},{"id":16,"0":16,"khata_number":"915","1":"915","khatedar_name":"શ્રી વિઠ્લભાઈ અરજણભાઇ ગજેરા","2":"શ્રી વિઠ્લભાઈ અરજણભાઇ ગજેરા","mobile_number":"9898887412","3":"9898887412","extra_field":null,"4":null,"created_at":"2026-08-15 12:52:31","5":"2026-08-15 12:52:31","_staticSerial":16},{"id":17,"0":17,"khata_number":"2097","1":"2097","khatedar_name":"શ્રી સંદિપભાઇ હરેશભાઇ રાખોલીયા","2":"શ્રી સંદિપભાઇ હરેશભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 12:58:11","5":"2026-08-15 12:58:11","_staticSerial":17},{"id":18,"0":18,"khata_number":"1697","1":"1697","khatedar_name":"ગુ.નાં વિ. મધુબેન કાનજીભાઇ સાવલીયા","2":"ગુ.નાં વિ. મધુબેન કાનજીભાઇ સાવલીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 12:58:28","5":"2026-08-15 12:58:28","_staticSerial":18},{"id":19,"0":19,"khata_number":"1117","1":"1117","khatedar_name":"શ્રી વઘાસીયા બાબુભાઈ શંભુભાઈ","2":"શ્રી વઘાસીયા બાબુભાઈ શંભુભાઈ","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:03:14","5":"2026-08-15 13:03:14","_staticSerial":19},{"id":20,"0":20,"khata_number":"1073","1":"1073","khatedar_name":"શ્રી રામજીભાઇ હરિભાઈ વાડદરીયા","2":"શ્રી રામજીભાઇ હરિભાઈ વાડદરીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:03:58","5":"2026-08-15 13:03:58","_staticSerial":20},{"id":21,"0":21,"khata_number":"119","1":"119","khatedar_name":"શ્રી વજુભાઇ ચનાભાઇ રીબડીયા","2":"શ્રી વજુભાઇ ચનાભાઇ રીબડીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:04:16","5":"2026-08-15 13:04:16","_staticSerial":21},{"id":22,"0":22,"khata_number":"328","1":"328","khatedar_name":"શ્રી ભગવાનભાઈ ભીખુભાઈ સાવલીયા","2":"શ્રી ભગવાનભાઈ ભીખુભાઈ સાવલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:05:25","5":"2026-08-15 13:05:25","_staticSerial":22},{"id":23,"0":23,"khata_number":"850","1":"850","khatedar_name":"શ્રી નવનીત઼ભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી નવનીત઼ભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:06:43","5":"2026-08-15 13:06:43","_staticSerial":23},{"id":24,"0":24,"khata_number":"111","1":"111","khatedar_name":"શ્રી હરેશભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી હરેશભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:08:35","5":"2026-08-15 13:08:35","_staticSerial":24},{"id":25,"0":25,"khata_number":"948","1":"948","khatedar_name":"કેતનભાઇ પરસોતમભાઇ ગજેરા","2":"કેતનભાઇ પરસોતમભાઇ ગજેરા","mobile_number":"9925495316","3":"9925495316","extra_field":null,"4":null,"created_at":"2026-08-15 13:08:56","5":"2026-08-15 13:08:56","_staticSerial":25},{"id":26,"0":26,"khata_number":"639","1":"639","khatedar_name":"શ્રી પાનસુરીયા પોપટલાલ પુનાભાઈ","2":"શ્રી પાનસુરીયા પોપટલાલ પુનાભાઈ","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:09:49","5":"2026-08-15 13:09:49","_staticSerial":26},{"id":27,"0":27,"khata_number":"1044","1":"1044","khatedar_name":"શ્રી ડોબરીયા પાંચાભાઇ રણછોડભાઈ","2":"શ્રી ડોબરીયા પાંચાભાઇ રણછોડભાઈ","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:10:28","5":"2026-08-15 13:10:28","_staticSerial":27},{"id":28,"0":28,"khata_number":"821","1":"821","khatedar_name":"શ્રી પાટીદાર મઘુભાઈ રાજાભાઇ ગજેરા","2":"શ્રી પાટીદાર મઘુભાઈ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:10:54","5":"2026-08-15 13:10:54","_staticSerial":28},{"id":29,"0":29,"khata_number":"1986","1":"1986","khatedar_name":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","2":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:07","5":"2026-08-15 13:11:07","_staticSerial":29},{"id":30,"0":30,"khata_number":"1988","1":"1988","khatedar_name":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","2":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:14","5":"2026-08-15 13:11:14","_staticSerial":30},{"id":31,"0":31,"khata_number":"396","1":"396","khatedar_name":"મુકેશભાઇ ગોરધનભાઇ રાખોલીયા","2":"મુકેશભાઇ ગોરધનભાઇ રાખોલીયા","mobile_number":"9725981692","3":"9725981692","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:47","5":"2026-08-15 13:11:47","_staticSerial":31},{"id":32,"0":32,"khata_number":"111","1":"111","khatedar_name":"શ્રી ગોરધનભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી ગોરધનભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"9725981692","3":"9725981692","extra_field":null,"4":null,"created_at":"2026-08-15 13:12:29","5":"2026-08-15 13:12:29","_staticSerial":32},{"id":33,"0":33,"khata_number":"396","1":"396","khatedar_name":"ઘેલાભાઇ ગોરધનભાઇ રાખોલીયા","2":"ઘેલાભાઇ ગોરધનભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:28","5":"2026-08-15 13:13:28","_staticSerial":33},{"id":34,"0":34,"khata_number":"1589","1":"1589","khatedar_name":"ગીરધરભાઇ બાવાભાઇ મોવલીયા","2":"ગીરધરભાઇ બાવાભાઇ મોવલીયા","mobile_number":"9737090291","3":"9737090291","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:43","5":"2026-08-15 13:13:43","_staticSerial":34},{"id":35,"0":35,"khata_number":"1587","1":"1587","khatedar_name":"ગોપાલભાઇ બાવાભાઇ મોવલીયા","2":"ગોપાલભાઇ બાવાભાઇ મોવલીયા","mobile_number":"9725104385","3":"9725104385","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:59","5":"2026-08-15 13:13:59","_staticSerial":35},{"id":36,"0":36,"khata_number":"824","1":"824","khatedar_name":"શ્રી હરેશભાઈ અરજણભાઈ ભુત","2":"શ્રી હરેશભાઈ અરજણભાઈ ભુત","mobile_number":"9825359572","3":"9825359572","extra_field":null,"4":null,"created_at":"2026-08-15 13:39:32","5":"2026-08-15 13:39:32","_staticSerial":36},{"id":37,"0":37,"khata_number":"2096","1":"2096","khatedar_name":"પારસ ઉકાભાઇ સાવલીયા","2":"પારસ ઉકાભાઇ સાવલીયા","mobile_number":"9664825245","3":"9664825245","extra_field":null,"4":null,"created_at":"2026-08-15 13:43:51","5":"2026-08-15 13:43:51","_staticSerial":37},{"id":38,"0":38,"khata_number":"2095","1":"2095","khatedar_name":"ઉકાભાઇ ગોરધનભાઇ સાવલીયા","2":"ઉકાભાઇ ગોરધનભાઇ સાવલીયા","mobile_number":"9737090828","3":"9737090828","extra_field":null,"4":null,"created_at":"2026-08-15 13:44:20","5":"2026-08-15 13:44:20","_staticSerial":38},{"id":39,"0":39,"khata_number":"820","1":"820","khatedar_name":"અરવિંદભાઇ પ્રેમજીભાઇ ગજેરા","2":"અરવિંદભાઇ પ્રેમજીભાઇ ગજેરા","mobile_number":"9726222012","3":"9726222012","extra_field":null,"4":null,"created_at":"2026-08-15 13:45:25","5":"2026-08-15 13:45:25","_staticSerial":39},{"id":40,"0":40,"khata_number":"1990","1":"1990","khatedar_name":"ભુપતભાઇ પ્રેમજીભાઇ ગજેરા","2":"ભુપતભાઇ પ્રેમજીભાઇ ગજેરા","mobile_number":"9099133005","3":"9099133005","extra_field":null,"4":null,"created_at":"2026-08-15 13:45:47","5":"2026-08-15 13:45:47","_staticSerial":40},{"id":41,"0":41,"khata_number":"822","1":"822","khatedar_name":"શ્રી પાટીદાર સમજુભાઇ અરજણ઼ભાઇ ભુત","2":"શ્રી પાટીદાર સમજુભાઇ અરજણ઼ભાઇ ભુત","mobile_number":"9925172457","3":"9925172457","extra_field":null,"4":null,"created_at":"2026-08-15 13:46:09","5":"2026-08-15 13:46:09","_staticSerial":41},{"id":42,"0":42,"khata_number":"69","1":"69","khatedar_name":"દિલીપભાઇ અરજણભાઇ ભુત","2":"દિલીપભાઇ અરજણભાઇ ભુત","mobile_number":"9925172457","3":"9925172457","extra_field":null,"4":null,"created_at":"2026-08-15 13:46:28","5":"2026-08-15 13:46:28","_staticSerial":42},{"id":43,"0":43,"khata_number":"591","1":"591","khatedar_name":"શ્રી બાવાભાઇ અરજણ઼ભાઇ ભુત","2":"શ્રી બાવાભાઇ અરજણ઼ભાઇ ભુત","mobile_number":"9925772457","3":"9925772457","extra_field":null,"4":null,"created_at":"2026-08-15 13:48:21","5":"2026-08-15 13:48:21","_staticSerial":43},{"id":44,"0":44,"khata_number":"1784","1":"1784","khatedar_name":"શ્રી જયોતિષભાઈ ઊકાભાઈ","2":"શ્રી જયોતિષભાઈ ઊકાભાઈ","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:50:09","5":"2026-08-15 13:50:09","_staticSerial":44},{"id":45,"0":45,"khata_number":"1718","1":"1718","khatedar_name":"શ્રી કરણભાઇ જયોતિષભાઈ ભુત","2":"શ્રી કરણભાઇ જયોતિષભાઈ ભુત","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:50:20","5":"2026-08-15 13:50:20","_staticSerial":45},{"id":46,"0":46,"khata_number":"1783","1":"1783","khatedar_name":"શ્રી સંગીતાબેન જયોતિષભાઈ ભુત","2":"શ્રી સંગીતાબેન જયોતિષભાઈ ભુત","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:50:39","5":"2026-08-15 13:50:39","_staticSerial":46},{"id":47,"0":47,"khata_number":"2165","1":"2165","khatedar_name":"રાજેશભાઇ ભીમભાઇ મકવાણા","2":"રાજેશભાઇ ભીમભાઇ મકવાણા","mobile_number":"9558175923","3":"9558175923","extra_field":null,"4":null,"created_at":"2026-08-15 13:52:02","5":"2026-08-15 13:52:02","_staticSerial":47},{"id":48,"0":48,"khata_number":"1356","1":"1356","khatedar_name":"સાંગાણી ધનજીભાઈ સમજુભાઈ","2":"સાંગાણી ધનજીભાઈ સમજુભાઈ","mobile_number":"9726619930","3":"9726619930","extra_field":null,"4":null,"created_at":"2026-08-15 13:52:47","5":"2026-08-15 13:52:47","_staticSerial":48},{"id":49,"0":49,"khata_number":"1837","1":"1837","khatedar_name":"શ્રી દેવજીભાઇ જેરામભાઇ કથીરીયા","2":"શ્રી દેવજીભાઇ જેરામભાઇ કથીરીયા","mobile_number":"9601157011","3":"9601157011","extra_field":null,"4":null,"created_at":"2026-08-15 13:53:10","5":"2026-08-15 13:53:10","_staticSerial":49},{"id":50,"0":50,"khata_number":"1838","1":"1838","khatedar_name":"શ્રી લલીતભાઇ દેવજીભાઇ કથીરીયા","2":"શ્રી લલીતભાઇ દેવજીભાઇ કથીરીયા","mobile_number":"9909314512","3":"9909314512","extra_field":null,"4":null,"created_at":"2026-08-15 13:53:30","5":"2026-08-15 13:53:30","_staticSerial":50},{"id":51,"0":51,"khata_number":"1839","1":"1839","khatedar_name":"શ્રી મંજુલાબેન દેવજીભાઇ કથીરીયા","2":"શ્રી મંજુલાબેન દેવજીભાઇ કથીરીયા","mobile_number":"9909314512","3":"9909314512","extra_field":null,"4":null,"created_at":"2026-08-15 13:53:43","5":"2026-08-15 13:53:43","_staticSerial":51}];
+        const rowsPerPage = 20;
+        let currentPage = 1;
+        let filteredEntries = [];
 
         function renderTable(data) {
             const tbody = document.getElementById('tableBody');
@@ -194,8 +303,13 @@
                 return;
             }
 
+            // Pagination slice
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageData = data.slice(start, end);
+
             let html = '';
-            data.forEach((row) => {
+            pageData.forEach((row) => {
                 const date = row.created_at ? new Date(row.created_at).toLocaleString() : '—';
                 html += `
                     <tr>
@@ -210,6 +324,14 @@
             });
             tbody.innerHTML = html;
             total.textContent = data.length;
+
+            // Update pagination controls
+            const totalPages = Math.ceil(data.length / rowsPerPage) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            document.getElementById('currentPageDisplay').textContent = currentPage;
+            document.getElementById('totalPagesDisplay').textContent = totalPages;
+            document.getElementById('prevPageBtn').disabled = (currentPage <= 1);
+            document.getElementById('nextPageBtn').disabled = (currentPage >= totalPages);
         }
 
         function escHtml(str) {
@@ -219,19 +341,38 @@
             return div.innerHTML;
         }
 
+        // Search filter
         document.getElementById('searchInput').addEventListener('input', function() {
             const query = this.value.toLowerCase().trim();
             if (!query) {
-                renderTable(entries);
-                return;
+                filteredEntries = entries.slice(); // copy
+            } else {
+                filteredEntries = entries.filter(row =>
+                    Object.values(row).some(val => String(val).toLowerCase().includes(query))
+                );
             }
-            const filtered = entries.filter(row =>
-                Object.values(row).some(val => String(val).toLowerCase().includes(query))
-            );
-            renderTable(filtered);
+            currentPage = 1;
+            renderTable(filteredEntries);
         });
 
-        renderTable(entries);
+        // Pagination buttons
+        document.getElementById('prevPageBtn').addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(filteredEntries);
+            }
+        });
+        document.getElementById('nextPageBtn').addEventListener('click', function() {
+            const totalPages = Math.ceil(filteredEntries.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(filteredEntries);
+            }
+        });
+
+        // Initial render
+        filteredEntries = entries.slice();
+        renderTable(filteredEntries);
     </script>
 </body>
 </html>
