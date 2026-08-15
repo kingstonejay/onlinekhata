@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Khata List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+            padding: 16px;
+            color: #0f172a;
+        }
+        .app-header {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .app-header i {
+            font-size: 24px;
+            color: #60a5fa;
+        }
+        .app-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            flex: 1;
+        }
+        .app-header .badge-count {
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 4px 4px 4px 16px;
+            border-radius: 50px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 12px 0;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            color: #0f172a;
+        }
+        .search-box input::placeholder {
+            color: #94a3b8;
+        }
+        .search-box button {
+            background: #0f172a;
+            border: none;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .search-box button:active {
+            background: #1e293b;
+        }
+        .count {
+            font-size: 15px;
+            color: #475569;
+            margin-bottom: 16px;
+            padding-left: 4px;
+        }
+        .count strong {
+            color: #0f172a;
+        }
+
+        /* ===== CARD LIST (mobile‑first) ===== */
+        .entry-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
+            transition: background 0.15s;
+        }
+        .entry-card:active {
+            background: #f8fafc;
+        }
+        .entry-card .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .entry-card .row:last-child {
+            border-bottom: none;
+        }
+        .entry-card .label {
+            font-weight: 600;
+            color: #475569;
+            font-size: 14px;
+        }
+        .entry-card .value {
+            font-weight: 500;
+            color: #0f172a;
+            font-size: 15px;
+            text-align: right;
+            word-break: break-word;
+            max-width: 65%;
+        }
+        .entry-card .value .badge {
+            display: inline-block;
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .entry-card .khata-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .entry-card .khatedar-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .entry-card .mobile {
+            font-weight: 500;
+            color: #1e293b;
+        }
+        .entry-card .extra {
+            color: #64748b;
+            font-style: italic;
+        }
+        .entry-card .date {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        .entry-card .serial {
+            font-weight: 600;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-right: 6px;
+        }
+
+        /* Desktop: show as table */
+        @media (min-width: 641px) {
+            .entry-card {
+                display: none;
+            }
+            .table-view {
+                display: block;
+            }
+            .search-box {
+                max-width: 500px;
+            }
+        }
+        @media (max-width: 640px) {
+            .table-view {
+                display: none;
+            }
+            .entry-card {
+                display: block;
+            }
+            .app-header h1 {
+                font-size: 18px;
+            }
+            .app-header .badge-count {
+                font-size: 13px;
+            }
+        }
+
+        /* Table styling for desktop */
+        .table-view {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        thead {
+            background: #f8fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+        }
+        tbody tr:hover {
+            background: #fafbfc;
+        }
+        td {
+            padding: 12px 16px;
+            vertical-align: middle;
+        }
+        .badge-table {
+            display: inline-block;
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .empty {
+            text-align: center;
+            color: #94a3b8;
+            padding: 40px 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-header">
+        <i class="fas fa-list"></i>
+        <h1>ખાતા નોંધો</h1>
+        <span class="badge-count" id="headerCount">0</span>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 શોધો (ખાતા, નામ, મોબાઇલ...)" />
+        <button onclick="document.getElementById('searchInput').value=''; filterEntries();">સાફ</button>
+    </div>
+    <div class="count">કુલ: <strong id="totalCount">0</strong> નોંધો</div>
+
+    <!-- Mobile Card View -->
+    <div id="cardContainer"></div>
+
+    <!-- Desktop Table View -->
+    <div class="table-view">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ખાતા નંબર</th>
+                    <th>ખાતેદારનું નામ</th>
+                    <th>મોબાઇલ</th>
+                    <th>વધારાની માહિતી</th>
+                    <th>તારીખ</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td colspan="6" class="empty">લોડ થઈ રહ્યું છે...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const entries = [{"id":35,"0":35,"khata_number":"1587","1":"1587","khatedar_name":"ગોપાલભાઇ બાવાભાઇ મોવલીયા","2":"ગોપાલભાઇ બાવાભાઇ મોવલીયા","mobile_number":"9725104385","3":"9725104385","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:59","5":"2026-08-15 13:13:59"},{"id":34,"0":34,"khata_number":"1589","1":"1589","khatedar_name":"ગીરધરભાઇ બાવાભાઇ મોવલીયા","2":"ગીરધરભાઇ બાવાભાઇ મોવલીયા","mobile_number":"9737090291","3":"9737090291","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:43","5":"2026-08-15 13:13:43"},{"id":33,"0":33,"khata_number":"396","1":"396","khatedar_name":"ઘેલાભાઇ ગોરધનભાઇ રાખોલીયા","2":"ઘેલાભાઇ ગોરધનભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:13:28","5":"2026-08-15 13:13:28"},{"id":32,"0":32,"khata_number":"111","1":"111","khatedar_name":"શ્રી ગોરધનભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી ગોરધનભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"9725981692","3":"9725981692","extra_field":null,"4":null,"created_at":"2026-08-15 13:12:29","5":"2026-08-15 13:12:29"},{"id":31,"0":31,"khata_number":"396","1":"396","khatedar_name":"મુકેશભાઇ ગોરધનભાઇ રાખોલીયા","2":"મુકેશભાઇ ગોરધનભાઇ રાખોલીયા","mobile_number":"9725981692","3":"9725981692","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:47","5":"2026-08-15 13:11:47"},{"id":30,"0":30,"khata_number":"1988","1":"1988","khatedar_name":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","2":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:14","5":"2026-08-15 13:11:14"},{"id":29,"0":29,"khata_number":"1986","1":"1986","khatedar_name":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","2":"શ્રી મધુભાઇ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:11:07","5":"2026-08-15 13:11:07"},{"id":28,"0":28,"khata_number":"821","1":"821","khatedar_name":"શ્રી પાટીદાર મઘુભાઈ રાજાભાઇ ગજેરા","2":"શ્રી પાટીદાર મઘુભાઈ રાજાભાઇ ગજેરા","mobile_number":"9725576203","3":"9725576203","extra_field":null,"4":null,"created_at":"2026-08-15 13:10:54","5":"2026-08-15 13:10:54"},{"id":27,"0":27,"khata_number":"1044","1":"1044","khatedar_name":"શ્રી ડોબરીયા પાંચાભાઇ રણછોડભાઈ","2":"શ્રી ડોબરીયા પાંચાભાઇ રણછોડભાઈ","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:10:28","5":"2026-08-15 13:10:28"},{"id":26,"0":26,"khata_number":"639","1":"639","khatedar_name":"શ્રી પાનસુરીયા પોપટલાલ પુનાભાઈ","2":"શ્રી પાનસુરીયા પોપટલાલ પુનાભાઈ","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:09:49","5":"2026-08-15 13:09:49"},{"id":25,"0":25,"khata_number":"948","1":"948","khatedar_name":"કેતનભાઇ પરસોતમભાઇ ગજેરા","2":"કેતનભાઇ પરસોતમભાઇ ગજેરા","mobile_number":"9925495316","3":"9925495316","extra_field":null,"4":null,"created_at":"2026-08-15 13:08:56","5":"2026-08-15 13:08:56"},{"id":24,"0":24,"khata_number":"111","1":"111","khatedar_name":"શ્રી હરેશભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી હરેશભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:08:35","5":"2026-08-15 13:08:35"},{"id":23,"0":23,"khata_number":"850","1":"850","khatedar_name":"શ્રી નવનીત઼ભાઇ કડવાભાઇ રાખોલીયા","2":"શ્રી નવનીત઼ભાઇ કડવાભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:06:43","5":"2026-08-15 13:06:43"},{"id":22,"0":22,"khata_number":"328","1":"328","khatedar_name":"શ્રી ભગવાનભાઈ ભીખુભાઈ સાવલીયા","2":"શ્રી ભગવાનભાઈ ભીખુભાઈ સાવલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 13:05:25","5":"2026-08-15 13:05:25"},{"id":21,"0":21,"khata_number":"119","1":"119","khatedar_name":"શ્રી વજુભાઇ ચનાભાઇ રીબડીયા","2":"શ્રી વજુભાઇ ચનાભાઇ રીબડીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:04:16","5":"2026-08-15 13:04:16"},{"id":20,"0":20,"khata_number":"1073","1":"1073","khatedar_name":"શ્રી રામજીભાઇ હરિભાઈ વાડદરીયા","2":"શ્રી રામજીભાઇ હરિભાઈ વાડદરીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:03:58","5":"2026-08-15 13:03:58"},{"id":19,"0":19,"khata_number":"1117","1":"1117","khatedar_name":"શ્રી વઘાસીયા બાબુભાઈ શંભુભાઈ","2":"શ્રી વઘાસીયા બાબુભાઈ શંભુભાઈ","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 13:03:14","5":"2026-08-15 13:03:14"},{"id":18,"0":18,"khata_number":"1697","1":"1697","khatedar_name":"ગુ.નાં વિ. મધુબેન કાનજીભાઇ સાવલીયા","2":"ગુ.નાં વિ. મધુબેન કાનજીભાઇ સાવલીયા","mobile_number":"7016538378","3":"7016538378","extra_field":null,"4":null,"created_at":"2026-08-15 12:58:28","5":"2026-08-15 12:58:28"},{"id":17,"0":17,"khata_number":"2097","1":"2097","khatedar_name":"શ્રી સંદિપભાઇ હરેશભાઇ રાખોલીયા","2":"શ્રી સંદિપભાઇ હરેશભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 12:58:11","5":"2026-08-15 12:58:11"},{"id":16,"0":16,"khata_number":"915","1":"915","khatedar_name":"શ્રી વિઠ્લભાઈ અરજણભાઇ ગજેરા","2":"શ્રી વિઠ્લભાઈ અરજણભાઇ ગજેરા","mobile_number":"9898887412","3":"9898887412","extra_field":null,"4":null,"created_at":"2026-08-15 12:52:31","5":"2026-08-15 12:52:31"},{"id":15,"0":15,"khata_number":"329","1":"329","khatedar_name":"મનીષભાઇ કાનજીભાઇ સાવલીયા","2":"મનીષભાઇ કાનજીભાઇ સાવલીયા","mobile_number":"9724847520","3":"9724847520","extra_field":null,"4":null,"created_at":"2026-08-15 12:51:36","5":"2026-08-15 12:51:36"},{"id":14,"0":14,"khata_number":"1359","1":"1359","khatedar_name":"શ્રી મગનભાઈ ભીખુભાઈ સાવલીયા","2":"શ્રી મગનભાઈ ભીખુભાઈ સાવલીયા","mobile_number":"9724847520","3":"9724847520","extra_field":null,"4":null,"created_at":"2026-08-15 12:45:09","5":"2026-08-15 12:45:09"},{"id":13,"0":13,"khata_number":"1834","1":"1834","khatedar_name":"શૈલેષભાઇ રત્નાભાઇ વઘાસીયા","2":"શૈલેષભાઇ રત્નાભાઇ વઘાસીયા","mobile_number":"9725520462","3":"9725520462","extra_field":null,"4":null,"created_at":"2026-08-15 12:44:03","5":"2026-08-15 12:44:03"},{"id":12,"0":12,"khata_number":"1400","1":"1400","khatedar_name":"સાવલીયા મનીષભાઈ દેવરાજભાઈ","2":"સાવલીયા મનીષભાઈ દેવરાજભાઈ","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:43:04","5":"2026-08-15 12:43:04"},{"id":11,"0":11,"khata_number":"1397","1":"1397","khatedar_name":"શ્રી ધનાભાઇ ગોકળભાઇ સાવલીયા","2":"શ્રી ધનાભાઇ ગોકળભાઇ સાવલીયા","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:42:40","5":"2026-08-15 12:42:40"},{"id":10,"0":10,"khata_number":"1397","1":"1397","khatedar_name":"રસીકભાઇ ધનજીભાઇ સાવલીયા","2":"રસીકભાઇ ધનજીભાઇ સાવલીયા","mobile_number":"9662770600","3":"9662770600","extra_field":null,"4":null,"created_at":"2026-08-15 12:42:14","5":"2026-08-15 12:42:14"},{"id":9,"0":9,"khata_number":"2098","1":"2098","khatedar_name":"શ્રી રાજનભાઇ હરેશભાઇ રાખોલીયા","2":"શ્રી રાજનભાઇ હરેશભાઇ રાખોલીયા","mobile_number":"0000000000","3":"0000000000","extra_field":null,"4":null,"created_at":"2026-08-15 12:41:03","5":"2026-08-15 12:41:03"},{"id":8,"0":8,"khata_number":"1870","1":"1870","khatedar_name":"દિનેશભાઇ ધીરૂભાઇ રૂડાણી","2":"દિનેશભાઇ ધીરૂભાઇ રૂડાણી","mobile_number":"9925600947","3":"9925600947","extra_field":null,"4":null,"created_at":"2026-08-15 12:39:38","5":"2026-08-15 12:39:38"},{"id":7,"0":7,"khata_number":"1077","1":"1077","khatedar_name":"શ્રી વિનુભાઇ ગોરઘનભાઇ સાવલીયા","2":"શ્રી વિનુભાઇ ગોરઘનભાઇ સાવલીયા","mobile_number":"9978201812","3":"9978201812","extra_field":null,"4":null,"created_at":"2026-08-15 12:39:13","5":"2026-08-15 12:39:13"},{"id":6,"0":6,"khata_number":"1076","1":"1076","khatedar_name":"શ્રી સાવલીયા વિઠ્લભાઇ ગોરઘનભાઇ","2":"શ્રી સાવલીયા વિઠ્લભાઇ ગોરઘનભાઇ","mobile_number":"9879651449","3":"9879651449","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:57","5":"2026-08-15 12:38:57"},{"id":5,"0":5,"khata_number":"218","1":"218","khatedar_name":"શ્રી કેશુભાઈ ગોરઘનભાઈ સાવલીયા","2":"શ્રી કેશુભાઈ ગોરઘનભાઈ સાવલીયા","mobile_number":"9913199549","3":"9913199549","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:36","5":"2026-08-15 12:38:36"},{"id":4,"0":4,"khata_number":"355","1":"355","khatedar_name":"શ્રી ગોંડલીયા હંસરાજ઼ ગોવીંદ઼ભાઇ","2":"શ્રી ગોંડલીયા હંસરાજ઼ ગોવીંદ઼ભાઇ","mobile_number":"8141677272","3":"8141677272","extra_field":null,"4":null,"created_at":"2026-08-15 12:38:09","5":"2026-08-15 12:38:09"},{"id":3,"0":3,"khata_number":"1813","1":"1813","khatedar_name":"નાથીબેન ગોબરભાઇ ગોંડલીયા","2":"નાથીબેન ગોબરભાઇ ગોંડલીયા","mobile_number":"9106958159","3":"9106958159","extra_field":null,"4":null,"created_at":"2026-08-15 12:37:32","5":"2026-08-15 12:37:32"},{"id":2,"0":2,"khata_number":"1078","1":"1078","khatedar_name":"શ્રી ગાગંજીભાઇ ગોરઘનભાઇ સાવલીયા","2":"શ્રી ગાગંજીભાઇ ગોરઘનભાઇ સાવલીયા","mobile_number":"9825441701","3":"9825441701","extra_field":null,"4":null,"created_at":"2026-08-15 12:35:28","5":"2026-08-15 12:35:28"},{"id":1,"0":1,"khata_number":"1463","1":"1463","khatedar_name":"હરિભાઇ કાબાભાઇ ગોંડલીયા","2":"હરિભાઇ કાબાભાઇ ગોંડલીયા","mobile_number":"9979534544","3":"9979534544","extra_field":null,"4":null,"created_at":"2026-08-15 12:34:33","5":"2026-08-15 12:34:33"}];
+
+        function escHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function renderCards(data) {
+            const container = document.getElementById('cardContainer');
+            const total = document.getElementById('totalCount');
+            const headerCount = document.getElementById('headerCount');
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="entry-card" style="text-align:center; color:#94a3b8; padding:30px 0;">📭 કોઈ નોંધ નથી.</div>';
+                total.textContent = '0';
+                headerCount.textContent = '0';
+                return;
+            }
+
+            let html = '';
+            data.forEach((row, idx) => {
+                const serial = data.length - idx;
+                const date = row.created_at ? new Date(row.created_at).toLocaleString() : '—';
+                html += `
+                    <div class="entry-card">
+                        <div class="row">
+                            <span class="label"><i class="fas fa-hashtag" style="color:#94a3b8;"></i> #</span>
+                            <span class="value serial">${serial}</span>
+                        </div>
+                        <div class="row">
+                            <span class="label">ખાતા નંબર</span>
+                            <span class="value khata-number"><span class="badge">${escHtml(row.khata_number)}</span></span>
+                        </div>
+                        <div class="row">
+                            <span class="label">ખાતેદાર</span>
+                            <span class="value khatedar-name">${escHtml(row.khatedar_name)}</span>
+                        </div>
+                        <div class="row">
+                            <span class="label">મોબાઇલ</span>
+                            <span class="value mobile">${escHtml(row.mobile_number)}</span>
+                        </div>
+                        ${row.extra_field ? `
+                        <div class="row">
+                            <span class="label">વધારાની માહિતી</span>
+                            <span class="value extra">${escHtml(row.extra_field)}</span>
+                        </div>` : ''}
+                        <div class="row">
+                            <span class="label">તારીખ</span>
+                            <span class="value date">${date}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            total.textContent = data.length;
+            headerCount.textContent = data.length;
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty">📭 કોઈ નોંધ નથી.</td></tr>';
+                return;
+            }
+            let html = '';
+            data.forEach((row, idx) => {
+                const serial = data.length - idx;
+                const date = row.created_at ? new Date(row.created_at).toLocaleString() : '—';
+                html += `
+                    <tr>
+                        <td>${serial}</td>
+                        <td><span class="badge-table">${escHtml(row.khata_number)}</span></td>
+                        <td><strong>${escHtml(row.khatedar_name)}</strong></td>
+                        <td>${escHtml(row.mobile_number)}</td>
+                        <td>${row.extra_field ? escHtml(row.extra_field) : '—'}</td>
+                        <td>${date}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function renderAll(data) {
+            renderCards(data);
+            renderTable(data);
+            document.getElementById('totalCount').textContent = data.length;
+            document.getElementById('headerCount').textContent = data.length;
+        }
+
+        function filterEntries() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!query) {
+                renderAll(entries);
+                return;
+            }
+            const filtered = entries.filter(row =>
+                Object.values(row).some(val => String(val).toLowerCase().includes(query))
+            );
+            renderAll(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterEntries);
+
+        // Initial render
+        renderAll(entries);
+    </script>
+
+</body>
+</html>
